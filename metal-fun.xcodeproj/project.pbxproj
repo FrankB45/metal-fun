@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		012849612D3C93BF00D5ADBF /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 012849602D3C93BF00D5ADBF /* Metal.framework */; };
+		012849632D3C93CE00D5ADBF /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 012849622D3C93CE00D5ADBF /* MetalKit.framework */; };
+		012849652D3C93DD00D5ADBF /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 012849642D3C93DD00D5ADBF /* MetalPerformanceShaders.framework */; };
+		012849702D3CB69E00D5ADBF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0128496F2D3CB69E00D5ADBF /* SwiftUI.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		012849432D3C927C00D5ADBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,22 +34,16 @@
 		012849312D3C927B00D5ADBF /* metal-fun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "metal-fun.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		012849422D3C927C00D5ADBF /* metal-funTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "metal-funTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0128494C2D3C927C00D5ADBF /* metal-funUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "metal-funUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		012849602D3C93BF00D5ADBF /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
+		012849622D3C93CE00D5ADBF /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
+		012849642D3C93DD00D5ADBF /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk/System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = DEVELOPER_DIR; };
+		0128496F2D3CB69E00D5ADBF /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		012849332D3C927B00D5ADBF /* metal-fun */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "metal-fun";
-			sourceTree = "<group>";
-		};
-		012849452D3C927C00D5ADBF /* metal-funTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "metal-funTests";
-			sourceTree = "<group>";
-		};
-		0128494F2D3C927C00D5ADBF /* metal-funUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "metal-funUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +53,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				012849702D3CB69E00D5ADBF /* SwiftUI.framework in Frameworks */,
+				012849612D3C93BF00D5ADBF /* Metal.framework in Frameworks */,
+				012849652D3C93DD00D5ADBF /* MetalPerformanceShaders.framework in Frameworks */,
+				012849632D3C93CE00D5ADBF /* MetalKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,8 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				012849332D3C927B00D5ADBF /* metal-fun */,
-				012849452D3C927C00D5ADBF /* metal-funTests */,
-				0128494F2D3C927C00D5ADBF /* metal-funUITests */,
+				0128495F2D3C93BF00D5ADBF /* Frameworks */,
 				012849322D3C927B00D5ADBF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +94,17 @@
 				0128494C2D3C927C00D5ADBF /* metal-funUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0128495F2D3C93BF00D5ADBF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0128496F2D3CB69E00D5ADBF /* SwiftUI.framework */,
+				012849642D3C93DD00D5ADBF /* MetalPerformanceShaders.framework */,
+				012849622D3C93CE00D5ADBF /* MetalKit.framework */,
+				012849602D3C93BF00D5ADBF /* Metal.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -130,9 +145,6 @@
 			dependencies = (
 				012849442D3C927C00D5ADBF /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				012849452D3C927C00D5ADBF /* metal-funTests */,
-			);
 			name = "metal-funTests";
 			packageProductDependencies = (
 			);
@@ -152,9 +164,6 @@
 			);
 			dependencies = (
 				0128494E2D3C927C00D5ADBF /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				0128494F2D3C927C00D5ADBF /* metal-funUITests */,
 			);
 			name = "metal-funUITests";
 			packageProductDependencies = (
@@ -396,6 +405,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -414,10 +424,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fbaiata.metal-fun";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Debug;
@@ -435,6 +445,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -453,10 +464,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fbaiata.metal-fun";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Release;
