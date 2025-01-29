@@ -10,6 +10,12 @@
 
 #include <simd/simd.h>
 
+typedef enum MetalVertexInputIndex
+{
+    MetalVertexInputIndexVertices     = 0,
+    MetalVertexInputIndexViewportSize = 1,
+} MetalVertexInputIndex;
+
 typedef struct
 {
     vector_float2 position;

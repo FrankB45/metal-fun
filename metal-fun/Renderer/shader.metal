@@ -10,8 +10,6 @@
 
 using namespace metal;
 
-
-
 struct RasterizerData
 {
     // The [[position]] attribute of this member indicates that this value
@@ -26,20 +24,28 @@ struct RasterizerData
     float4 color;
 };
 
-vertex RasterizerData vertexShader(uint vertexID [[vertex_id]]){
-    
-    //Hardcoded Data for now
-    float4 positions[3] = {
-        float4( 0.0, 0.5, 0.0, 1.0) ,
-        float4( -0.5, -0.5, 0.0, 1.0),
-        float4( 0.5, -0.5, 0.0, 1.0)
-    };
+vertex RasterizerData vertexShader(uint vertexID [[vertex_id]],
+                                   constant MetalVertex *vertices [[buffer(MetalVertexInputIndexVertices)]],
+                                   constant vector_uint2 *viewportSizePointer [[buffer(MetalVertexInputIndexViewportSize)]]){
     
     RasterizerData output;
     
-    output.position = positions[vertexID];
-    output.color = float4(1.0,0.0,0.0,1.0);
+    // Index into the array of positions to get the current vertex.
+    // The positions are specified in pixel dimensions (i.e. a value of 100
+    // is 100 pixels from the origin).
+    float2 pixelSpacePosition = vertices[vertexID].position.xy;
+
+    // Get the viewport size and cast to float.
+    vector_float2 viewportSize = vector_float2(*viewportSizePointer);
     
+
+    // To convert from positions in pixel space to positions in clip-space,
+    //  divide the pixel coordinates by half the size of the viewport.
+    output.position = vector_float4(0.0, 0.0, 0.0, 1.0);
+    output.position.xy = pixelSpacePosition / (viewportSize / 2.0);
+
+    // Pass the input color directly to the rasterizer.
+    output.color = vertices[vertexID].color;
     
     return output;
 }
