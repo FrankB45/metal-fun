@@ -22,7 +22,7 @@ struct MetalView: NSViewRepresentable {
         let mtkView = MTKView()
         mtkView.device = MTLCreateSystemDefaultDevice()
         mtkView.clearColor = MTLClearColorMake(0.68, 0.85, 0.90, 1.0)
-        mtkView.enableSetNeedsDisplay = true
+        mtkView.enableSetNeedsDisplay = false
         return mtkView
     }()
 

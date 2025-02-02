@@ -22,6 +22,20 @@ class MetalRenderer: NSObject, MTKViewDelegate {
     var pipelineState: MTLRenderPipelineState?
     var viewportSize: vector_uint2 = vector_uint2(0, 0)
     
+    //HUD to display FPS and other useful info
+    var hudLayer: CATextLayer?
+    
+    //Used to calculate FPS
+    private var lastFrameTime: CFTimeInterval = 0
+    private var frameCount: Int = 0
+    private var elapsedTimeAccumulator: CFTimeInterval = 0
+    private var frameTimeList: [CFTimeInterval] = []
+    
+    public private(set) var currentFPS: Double = 0
+    public private(set) var averageFrameTime: Double = 0
+    
+    
+    
     init(metalView: MTKView) {
         self.device = metalView.device
         self.commandQueue = self.device?.makeCommandQueue()
@@ -38,6 +52,32 @@ class MetalRenderer: NSObject, MTKViewDelegate {
         if let device = self.device {
             self.pipelineState = PipelineBuilder.buildPipeline(device: device, vertexFunctionName:"vertexShader", fragmentFunctionName:"fragmentShader")
         }
+        
+        
+        // *** Setup the Heads-Up Display (HUD) overlay ***
+        // Ensure the view is layer-backed.
+        metalView.wantsLayer = true
+        
+        // Create the CATextLayer.
+        let hud = CATextLayer()
+        // Position it in the top left corner. (Adjust the y coordinate based on the view’s coordinate system.)
+        // Note: On macOS, (0,0) is at the bottom-left, so we subtract from view.bounds.height.
+        let layerWidth: CGFloat = 200
+        let layerHeight: CGFloat = 50
+        let xPos: CGFloat = 10
+        let yPos: CGFloat = metalView.bounds.height
+        hud.frame = CGRect(x: xPos, y: yPos, width: layerWidth, height: layerHeight)
+        
+        hud.foregroundColor = NSColor.white.cgColor  // Use UIColor.white.cgColor on iOS
+        hud.fontSize = 14
+        hud.alignmentMode = .left
+        // Ensure the text looks sharp on high-resolution displays.
+        hud.contentsScale = NSScreen.main?.backingScaleFactor ?? 2.0
+        hud.string = "FPS: --\nFrame Time: --"
+        
+        // Add the text layer to the view’s layer.
+        metalView.layer?.addSublayer(hud)
+        self.hudLayer = hud
     
         
         super.init()
@@ -56,6 +96,44 @@ class MetalRenderer: NSObject, MTKViewDelegate {
     func draw(in view: MTKView) {
         guard let drawable = view.currentDrawable,
               let descriptor = view.currentRenderPassDescriptor else { return }
+        
+        //-----------
+        //Used for FPS
+        // Measure the time elapsed since the last frame
+        let currentTime: CFTimeInterval = CACurrentMediaTime()
+        if lastFrameTime == 0 {
+            lastFrameTime = currentTime
+        }
+        
+        let deltaTime = currentTime - lastFrameTime
+        frameTimeList += [deltaTime]
+        lastFrameTime = currentTime
+        
+        //Accumulate elasped time and count frames
+        elapsedTimeAccumulator += deltaTime
+        frameCount += 1
+        
+        //Once per second, compute and store the FPS
+        if elapsedTimeAccumulator >= 1 {
+            currentFPS = Double(frameCount) / elapsedTimeAccumulator
+            elapsedTimeAccumulator = 0
+            frameCount = 0
+            
+            if !frameTimeList.isEmpty {
+                averageFrameTime = frameTimeList.reduce(0, +) / Double(frameTimeList.count)
+                averageFrameTime = averageFrameTime * 1000
+            } else {
+                averageFrameTime = 0  // Set to 0 if no frames were recorded
+            }
+            frameTimeList.removeAll()
+            
+            // Update the CATextLayer on the main thread.
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.hudLayer?.string = String(format: "FPS: %d\nFrame Time: %.4f ms", Int(self.currentFPS), self.averageFrameTime)
+            }
+        }
+        
         
         let commandBuffer = commandQueue?.makeCommandBuffer()
         let renderEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: descriptor)
